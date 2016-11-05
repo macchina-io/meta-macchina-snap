@@ -1,0 +1,52 @@
+name: macchina-io
+version: 0.9.0
+summary: A toolkit for building IoT device applications in JavaScript and C++
+description: An open-source toolkit for building embedded IoT applications that connect sensors, devices and cloud services.
+confinement: devmode
+grade: stable
+
+apps:
+  server:
+    command: bin/start-macchina.sh  
+    daemon: forking
+    stop-command: bin/stop-macchina.sh
+    plugs:
+      - network
+      - network-bind
+      - bluez
+      - serial-port
+
+parts:
+  macchina:
+    plugin: make
+    make-parameters: 
+      - PRODUCT=runtime
+      - DEFAULT_TARGET=shared_release
+      - -s
+    source: https://github.com/macchina-io/macchina.io.git
+    build-packages: 
+      - g++
+      - libssl-dev
+      - python
+
+  bluepy-helper:
+    plugin: make
+    make-parameters:
+      - -s
+    source: https://github.com/macchina-io/bluepy.git
+    source-subdir: bluepy
+    artifacts:
+      - bluepy-helper
+    organize:
+      bluepy-helper: bin/bluepy-helper
+    build-packages:
+      - gcc
+      - python
+      - libglib2.0-dev
+
+  macchina-snap:
+    plugin: dump
+    source: files
+    after: 
+      - macchina
+
