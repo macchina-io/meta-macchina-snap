@@ -1,9 +1,11 @@
 MACCHINA_CONFIG="${SNAP}/etc/macchina-snap.properties"
 MACCHINA_USER_CONFIG="$SNAP_USER_DATA/etc/macchina.properties"
-MACCHINA_CODE_CACHE="$SNAP_USER_DATA/codeCache"
+MACCHINA_CODE_CACHE="$SNAP_USER_DATA/cache/lib"
 
+mkdir -p "$SNAP_USER_DATA/etc"
 mkdir -p "$SNAP_USER_DATA/log"
 mkdir -p "$SNAP_USER_DATA/run"
+mkdir -p "$SNAP_USER_DATA/lib/bundles"
 mkdir -p "$MACCHINA_CODE_CACHE"
 
 if [ -f "$MACCHINA_USER_CONFIG" ] ; then
